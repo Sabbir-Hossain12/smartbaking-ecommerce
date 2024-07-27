@@ -88,13 +88,13 @@ class AppServiceProvider extends ServiceProvider
             $categories = Category::with(['subcategories'=>function ($query) { $query->select('id','sub_category_name','slug','category_id')->where('status','Active');},])->where('status','Active')->select('id','category_name','slug','category_icon')->latest()->take(11)->get()->reverse();
             $categorylist = Category::where('status','Active')->select('id','category_name','slug','category_icon')->get()->chunk(2);
             $sliders = Slider::where('status','Active')->select('id','slider_small_title','slider_title','slider_text','slider_btn_name','slider_btn_link','slug','slider_image')->get();
-            $topproducts = Product::where('status','Active')->where('top_rated','1')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->get();
+            $topproducts = Product::where('status','Active')->where('top_rated','1')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->with('weights')->get();
             $adds = Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->take(2);
             $addbottoms = Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->reverse()->take(2);
             
             $featuredproducts = Product::with('weights')->where('status','Active')->where('frature','0')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->get()->reverse();
             $bestproducts = Product::where('status','Active')->where('best_selling','0')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->latest()->take(20)->get()->chunk(2);
-            $categoryproducts = Category::with(['products'=>function ($query) { $query->select('id','category_id','ViewProductImage','ProductName','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->where('status','Active');},])->where('status','Active')->where('front_status',0)->select('id','category_name','slug')->get();
+            $categoryproducts = Category::with(['products'=>function ($query) { $query->select('id','category_id','ViewProductImage','ProductName','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->where('status','Active');},'products.weights'])->where('status','Active')->where('front_status',0)->select('id','category_name','slug')->get();
 
             
 

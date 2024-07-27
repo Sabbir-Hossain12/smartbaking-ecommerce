@@ -20,6 +20,8 @@ class OrderController extends Controller
 
     public function pressorder(Request $request){ 
         $products = Cart::content();
+        
+//        dd($products);
 
         if(!Session::has('cart')){
             return redirect('/empty-cart');

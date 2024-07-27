@@ -10,35 +10,32 @@ use Session;
 
 class CartController extends Controller
 {
-    public function addtocart(Request $request){ 
+    public function addtocart(Request $request)
+    {
         $pid = $request->product_id;
-        $cartProduct = Product::where('id',$pid)->with('weights')->first();
+        $cartProduct = Product::where('id', $pid)->with('weights')->first();
 
-     
 
-          Cart::add([
-              'id' =>   $request->product_id,
-              'name' => $cartProduct->ProductName,
-              'code' => $cartProduct->ProductSku,
-              'price' => $request->productSalePrice,
-              'qty' => $request->qty,
-              'weight' => 1,
-              'image' => $cartProduct->ProductImage,
-              'options' => [
-                  'size' => $request->size,
-                  'color' => $request->color,
-              ],
+        Cart::add([
+            'id' => $request->product_id,
+            'name' => $cartProduct->ProductName,
+            'code' => $cartProduct->ProductSku,
+            'price' => $request->productSalePrice,
+            'qty' => $request->qty,
+            'weight' => 1,
+            'image' => $cartProduct->ProductImage,
+            'options' => [
+                'size' => $request->size,
+                'color' => $request->color,
+            ],
 
-          ]);
-          
-     
-      
-      
-       
-        
+        ]);
+
+
         return redirect('checkout');
         // return response()->json('success',200);
     }
+
 
 
     public function updatecart(Request $request){

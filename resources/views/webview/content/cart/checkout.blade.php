@@ -143,7 +143,7 @@
                                                                     name="quantity[{{ $cartProduct->id }}]"
                                                                     id="QuantityPeo{{ $cartProduct->rowId }}"
                                                                     class="form-control input-number" placeholder="1"
-                                                                    value="{{ $cartProduct->qty }}" min="1" max="10"
+                                                                    value="{{ $cartProduct->qty }}" min="1" 
                                                                     onchange="updateQuantity('{{ $cartProduct->rowId }}', this)">
                                                                 <span class="input-group-btn">
                                                                     <button class="btn btn-number" onclick="updatenum('{{$cartProduct->rowId}}')" id="äddqty" type="button" >
@@ -271,9 +271,7 @@
         function updatenum(id){
             var num=$('#QuantityPeo'+id).val();
             var fv=Number(num)+1;
-            if(fv>9){
-
-            }else{
+            
                 $('#QuantityPeo'+id).val(fv);
                 $.ajax({
                     type: 'POST',
@@ -294,7 +292,7 @@
                         console.log('error');
                     }
                 });
-            }
+            
         }
         function remnum(id){
             var num=$('#QuantityPeo'+id).val();

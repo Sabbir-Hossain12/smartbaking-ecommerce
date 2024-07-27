@@ -229,8 +229,15 @@
                                                                      id="featureimagess" style="height: 175px">
                                                             </a>
                                                         </div>
+                                                        @if(count($promotional->weights)>0)
+
+                                                            <span id="discountpart"> <span id="discountparttwo"> <p
+                                                                            id="pdis">-{{ round( $promotional->weights[0]->discount) }}%</p> </span></span>
+                                                        @else
                                                         <span id="discountpart"> <span id="discountparttwo"> <p
-                                                                        id="pdis">-{{ $promotional->Discount }}%</p> </span></span>
+                                                                        id="pdis">-{{ round($promotional->Discount) }}%</p> </span></span>
+                                                            
+                                                            @endif
                                                     </div>
                                                     <!-- /.product-image -->
                                                 </div>
@@ -270,6 +277,11 @@
                                                         <input type="text" name="product_id"
                                                                value=" {{ $promotional->id }}"
                                                                hidden>
+                                                        @if(count($promotional->weights)>0)
+                                                        <input type="text" name="productSalePrice" value="{{round($promotional->weights[0]->productSalePrice)}}" hidden="">
+                                                        @else
+                                                            <input type="text" name="productSalePrice" value="{{ round($promotional->ProductSalePrice) }}" hidden="">
+                                                        @endif
                                                         <input type="text" name="qty" value="1" id="qtyor" hidden>
                                                         <button class="btn btn-danger btn-sm mb-0 btn-block"
                                                                 style="width: 100%;border-radius: 0%;" id="purcheseBtn">
@@ -326,11 +338,21 @@
                                                             <a href="{{ url('product/' . $promotionals->ProductSlug) }}">
                                                                 <img src="{{ asset($promotionals->ViewProductImage) }}"
                                                                      alt="{{ $promotionals->ProductName }}"
-                                                                     id="featureimagess">
+                                                                     id="featureimagess" style="height: 175px">
                                                             </a>
                                                         </div>
+                                                        
+                                                        @if(count($promotionals->weights)>0)
+
+                                                            <span id="discountpart"> <span id="discountparttwo"> <p
+                                                                            id="pdis">-{{ round( $promotionals->weights[0]->discount) }}%</p> </span></span>
+                                                            
+                                                        @else
+                                                        
                                                         <span id="discountpart"> <span id="discountparttwo"> <p
                                                                         id="pdis">-{{ $promotionals->Discount }}%</p> </span></span>
+                                                            
+                                                        @endif
                                                     </div>
                                                     <!-- /.product-image -->
                                                 </div>
@@ -342,12 +364,19 @@
                                                             <h2 class="name text-truncate" id="f_name"><a
                                                                         href="{{ url('product/' . $promotionals->ProductSlug) }}"
                                                                         id="f_pro_name">{{ $promotionals->ProductName }}
-                                                                    s</a></h2>
+                                                                    </a></h2>
                                                         </div>
                                                         <div class="price-box">
-                                                            <!--<del class="old-product-price strong-400">৳{{ round($promotionals->ProductRegularPrice) }}</del>-->
-                                                            <span
-                                                                    class="product-price strong-600">৳{{ round($promotionals->ProductSalePrice) }}</span>
+                                                            @if(count($promotionals->weights)>0)
+                                                                <span
+                                                                        class="product-price strong-600">৳{{ round($promotionals->weights[0]->productSalePrice) }}</span>
+                                                            @else
+                                                                <span
+                                                                        class="product-price strong-600">৳{{ round($promotionals->ProductSalePrice) }}</span>
+                                                            @endif
+                                                            
+{{--                                                            <!--<del class="old-product-price strong-400">৳{{ round($promotionals->ProductRegularPrice) }}</del>-->--}}
+                                                           
                                                         </div>
                                                     </div>
                                                     <form name="form" action="{{url('add-to-cart')}}" method="POST"
@@ -360,6 +389,11 @@
                                                         <input type="text" name="product_id"
                                                                value=" {{ $promotionals->id }}"
                                                                hidden>
+                                                        @if(count($promotionals->weights)>0)
+                                                            <input type="text" name="productSalePrice" value="{{round($promotionals->weights[0]->productSalePrice)}}" hidden="">
+                                                        @else
+                                                            <input type="text" name="productSalePrice" value="{{ round($promotionals->ProductSalePrice) }}" hidden="">
+                                                        @endif
                                                         <input type="text" name="qty" value="1" id="qtyor" hidden>
                                                         <button class="btn btn-danger btn-sm mb-0 btn-block"
                                                                 style="width: 100%;border-radius: 0%;" id="purcheseBtn">
@@ -418,7 +452,13 @@
                                                              alt="{{ $product->ProductName }}" id="featureimage">
                                                     </a>
                                                 </div>
-                                                <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{ $product->Discount }}%</p> </span></span>
+                                                @if(count($product->weights)>0)
+                                                <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{round($product->weights[0]->discount)  }}%</p> </span></span>
+                                                
+                                                @else
+                                                    <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{round($product->Discount)  }}%</p> </span></span>
+
+                                                @endif
                                                 <!-- /.image -->
                                             </div>
                                             <!-- /.product-image -->
@@ -434,10 +474,20 @@
                                                     </h2>
                                                 </div>
                                                 <div class="price-box">
+                                                    
+                                                    @if(count($product->weights)>0) 
                                                     <del class="old-product-price strong-400">৳
-                                                        {{ round($product->ProductRegularPrice) }}</del>
+                                                        {{ round($product->weights[0]->productRegularPrice) }}</del>
                                                     <span class="product-price strong-600">৳
+                                                        {{ round($product->weights[0]->productSalePrice) }}</span>
+                                                        
+                                                    @else
+                                                        <del class="old-product-price strong-400">৳
+                                                            {{ round($product->ProductRegularPrice) }}</del>
+                                                        <span class="product-price strong-600">৳
                                                         {{ round($product->ProductSalePrice) }}</span>
+
+                                                    @endif
                                                 </div>
 
                                             </div>
@@ -451,6 +501,12 @@
                                                 <input type="text" name="size" id="product_sizeold" hidden>
                                                 <input type="text" name="product_id" value=" {{ $product->id }}"
                                                        hidden>
+
+                                                @if(count($product->weights)>0)
+                                                    <input type="text" name="productSalePrice" value="{{round($product->weights[0]->productSalePrice)}}" hidden="">
+                                                @else
+                                                    <input type="text" name="productSalePrice" value="{{ round($product->ProductSalePrice) }}" hidden="">
+                                                @endif
                                                 <input type="text" name="qty" value="1" id="qtyor" hidden>
                                                 <button class="btn btn-danger btn-sm mb-0 btn-block"
                                                         style="width: 100%;border-radius: 0%;" id="purcheseBtn">অর্ডার
