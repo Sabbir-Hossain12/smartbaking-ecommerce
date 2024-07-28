@@ -45,8 +45,6 @@
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>SKU</th>
-                                <th>Sale Price</th>
-                                <th>Discount</th>
                                 <th>Combo</th>
                                 <th>Featured</th>
                                 <th>Promotion</th>
@@ -571,12 +569,7 @@
                 {
                     data: 'ProductSku'
                 },
-                {
-                    data: 'ProductSalePrice'
-                },
-                {
-                    data: 'Discount'
-                },
+               
                 {
                     "data": null,
                     render: function(data) {

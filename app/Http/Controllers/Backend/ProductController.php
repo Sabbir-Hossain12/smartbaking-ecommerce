@@ -206,7 +206,8 @@ class ProductController extends Controller
         $products = Product::all();
         return Datatables::of($products)
             ->addColumn('action', function ($products) {
-                return '<a href="#" type="button" id="editProductBtn" data-id="' . $products->id . '"   class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editmainProduct" style="margin-bottom:2px;"><i class="bi bi-pencil-square"></i></a>
+                $editRoute=route('admin.products.edit', $products->id);
+                return '<a href="'.$editRoute.'" type="button" id="editProductBtn" data-id="' . $products->id . '"   class="btn btn-primary btn-sm"  style="margin-bottom:2px;"><i class="bi bi-pencil-square"></i></a>
                 <a href="#" type="button" style="margin-bottom:2px;" id="deleteProductBtn" data-id="' . $products->id . '" class="btn btn-danger btn-sm" ><i class="bi bi-archive" ></i></a>';
             })
 
@@ -221,7 +222,27 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $sizes=Attrvalue::where('attribute_id',2)->where('status','Active')->get();
+        $colors=Attrvalue::where('attribute_id',3)->where('status','Active')->get();
+        $weights=Attrvalue::where('attribute_id',1)->where('status','Active')->get();
+        $categories =Category::where('status','Active')->select('id','category_name','status')->get();
+        $brands =Brand::where('status','Active')->select('id','brand_name','status')->get();
         $product=Product::where('id',$id)->first();
+        $subcategories =Subcategory::where('status','Active')->where('category_id',$product->category_id)->select('id','sub_category_name')->get();
+        
+//        $subCats=Subcategory::where('id',$product->subcategory_id)->where('id','!=',null)->first();
+//      return response()->json($product, 200);
+        
+        $weightInfo=Weight::where('product_id',$id)->get();
+        return view('backend.content.product.edit',compact(['product','sizes','colors','weights','categories','brands','subcategories','weightInfo']));
+        
+    }
+    
+    
+    public function editProductData($id)
+    {
+        $product=Product::where('id',$id)->first();
+
         return response()->json($product, 200);
     }
 
@@ -234,7 +255,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $product = Product::where('id',$id)->first();
         $product->ProductName = $request->ProductName;
         $product->ProductBreaf = $request->ProductBreaf;

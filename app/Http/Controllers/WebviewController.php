@@ -141,9 +141,9 @@ class WebviewController extends Controller
             $category=Category::where('slug',$request->category)->select('id','category_name','slug','status')->first();
             if(isset($request->price_range)){
                 $num=preg_split("/[,]/",$request->price_range);
-                $categoryproducts=Product::where('category_id',$category->id)->where('status','Active')->whereBetween('ProductSalePrice',$num)->get();
+                $categoryproducts=Product::with('weights')->where('category_id',$category->id)->where('status','Active')->whereBetween('ProductSalePrice',$num)->get();
             }else{
-                $categoryproducts=Product::where('category_id',$category->id)->where('status','Active')->get();
+                $categoryproducts=Product::with('weights')->where('category_id',$category->id)->where('status','Active')->get();
             }
             return view('webview.content.product.view',['categoryproducts'=>$categoryproducts,'category'=>$category]);
         }
@@ -165,11 +165,11 @@ class WebviewController extends Controller
         public function getslugproduct(Request $request){
             $categories =Category::where('status','Active')->select('id','category_name','slug','category_icon')->get(); 
             if($request->slug=='best'){
-                $slugproducts=Product::where('best_selling','0')->where('status','Active')->get();
+                $slugproducts=Product::with('weights')->where('best_selling','0')->where('status','Active')->get();
             }elseif($request->slug=='featured'){
-                $slugproducts=Product::where('frature','0')->where('status','Active')->get();
+                $slugproducts=Product::with('weights')->where('frature','0')->where('status','Active')->get();
             }elseif($request->slug=='promotional'){
-                $slugproducts=Product::where('top_rated','1')->where('status','Active')->get();
+                $slugproducts=Product::with('weights')->where('top_rated','1')->where('status','Active')->get();
             }else{
                 abort(404);
             }
@@ -180,9 +180,9 @@ class WebviewController extends Controller
             $subcategory=Subcategory::where('slug',$request->subcategory)->select('id','sub_category_name','slug','status')->first();
             if(isset($request->price_range)){
                 $num=preg_split("/[,]/",$request->price_range);
-                $subcategoryproducts=Product::where('subcategory_id',$subcategory->id)->where('status','Active')->whereBetween('ProductSalePrice',$num)->get();
+                $subcategoryproducts=Product::with('weights')->where('subcategory_id',$subcategory->id)->where('status','Active')->whereBetween('ProductSalePrice',$num)->get();
             }else{
-                $subcategoryproducts=Product::where('subcategory_id',$subcategory->id)->where('status','Active')->get();
+                $subcategoryproducts=Product::with('weights')->where('subcategory_id',$subcategory->id)->where('status','Active')->get();
             }
             return view('webview.content.product.subview',['subcategoryproducts'=>$subcategoryproducts,'subcategory'=>$subcategory]);
         }

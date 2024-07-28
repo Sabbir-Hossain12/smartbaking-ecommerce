@@ -156,6 +156,7 @@ Route::group(['prefix'=>'admin','middleware' => ['auth.admin:admin']], function 
     Route::put('product/featur', [ProductController::class, 'featurestatusupdate']);
     Route::put('product/best-selling', [ProductController::class, 'bestsellstatusupdate']);
     
+    Route::get('product/{id}/editdata', [ProductController::class, 'editProductData']);
 //    Weight info
     Route::get('/weight-info',[ProductController::class,'weightInfo'])->name('admin.weightinfo');
 

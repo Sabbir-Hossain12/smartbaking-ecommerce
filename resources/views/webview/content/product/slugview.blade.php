@@ -13,8 +13,12 @@
                                         alt="{{ $categoryproduct->ProductName }}" id="featureimage" >
                                 </a>
                             </div>
-                            <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{ $categoryproduct->Discount }}%</p> </span></span>
-                        </div>
+                            @if(count($categoryproduct->weights)>0)
+                                <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{ round($categoryproduct->weights[0]->discount) }}%</p> </span></span>
+                            @else
+                                <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{ round($categoryproduct->Discount) }}%</p> </span></span>
+
+                            @endif                        </div>
                         <!-- /.product-image -->
                     </div>
                     <!-- /.col -->
@@ -26,8 +30,16 @@
                                         id="f_pro_name">{{ $categoryproduct->ProductName }}</a></h2>
                             </div>
                             <div class="price-box">
-                                <del class="old-product-price strong-400">৳{{ round($categoryproduct->ProductRegularPrice) }}</del>
-                                <span class="product-price strong-600">৳{{ round($categoryproduct->ProductSalePrice) }}</span>
+
+
+                                @if(count($categoryproduct->weights)>0)
+                                    <del class="old-product-price strong-400">৳{{ round($categoryproduct->weights[0]->productRegularPrice) }}</del>
+                                    <span class="product-price strong-600">৳{{ round($categoryproduct->weights[0]->productSalePrice) }}</span>
+
+                                @else
+                                    <del class="old-product-price strong-400">৳{{ round($categoryproduct->ProductRegularPrice) }}</del>
+                                    <span class="product-price strong-600">৳{{ round($categoryproduct->ProductSalePrice) }}</span>
+                                @endif
                             </div>
                         </div>
                         <form name="form" action="{{url('add-to-cart')}}" method="POST" enctype="multipart/form-data"
@@ -38,6 +50,15 @@
                             <input type="text" name="size" id="product_sizeold" hidden>
                             <input type="text" name="product_id" value=" {{ $categoryproduct->id }}"
                                 hidden>
+
+                            @if(count($categoryproduct->weights)>0)
+                                <input type="text" name="productSalePrice" value="{{round($categoryproduct->weights[0]->productSalePrice)}}" hidden="">
+                            @else
+                                <input type="text" name="productSalePrice" value="{{ round($categoryproduct->ProductSalePrice) }}" hidden="">
+                            @endif
+                            
+                            
+                            
                             <input type="text" name="qty" value="1" id="qtyor" hidden>
                             <button class="btn btn-danger btn-sm mb-0 btn-block"
                                     style="width: 100%;border-radius: 0%;" id="purcheseBtn">অর্ডার করুন</button>
