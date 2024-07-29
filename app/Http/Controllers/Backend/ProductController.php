@@ -150,19 +150,20 @@ class ProductController extends Controller
 
 
         // Decode the JSON string
-        $products = json_decode($request->product, true);
+        $products = json_decode($request->product, true) ?? [];
 
         // Loop through each product and save to the database
-        foreach ($products as $weightAtrribute) {
-           
-            $weight = new Weight();
-            $weight->attrvalue_id = $weightAtrribute['attrValueId'];
-            $weight->product_id = $product->id;
-            $weight->weight_name = $weightAtrribute['productWeight'];
-            $weight->productRegularPrice = $weightAtrribute['productRegularPrice'];
-            $weight->discount = $weightAtrribute['productDiscount'];
-            $weight->productSalePrice = $weightAtrribute['productRegularPrice'] - ($weightAtrribute['productRegularPrice'] * $weightAtrribute['productDiscount'] / 100);
-            $weight->save();
+        if (count($products)>0) {
+            foreach ($products as $weightAtrribute) {
+                $weight = new Weight();
+                $weight->attrvalue_id = $weightAtrribute['attrValueId'];
+                $weight->product_id = $product->id;
+                $weight->weight_name = $weightAtrribute['productWeight'];
+                $weight->productRegularPrice = $weightAtrribute['productRegularPrice'];
+                $weight->discount = $weightAtrribute['productDiscount'];
+                $weight->productSalePrice = $weightAtrribute['productRegularPrice'] - ($weightAtrribute['productRegularPrice'] * $weightAtrribute['productDiscount'] / 100);
+                $weight->save();
+            }
         }
 
         if ($result) {
@@ -270,6 +271,7 @@ class ProductController extends Controller
         if ($request->color) {
             $product->color = json_encode($request->color);
         }
+        
         if ($request->size) {
             $product->size = json_encode($request->size);
         }
@@ -311,6 +313,23 @@ class ProductController extends Controller
         }
 
         $product->save();
+
+        // Decode the JSON string
+        $products = json_decode($request->product, true) ?? [];
+
+        // Loop through each product and save to the database
+        if (count($products)>0) {
+            foreach ($products as $weightAtrribute) {
+                $weight = new Weight();
+                $weight->attrvalue_id = $weightAtrribute['attrValueId'];
+                $weight->product_id = $product->id;
+                $weight->weight_name = $weightAtrribute['productWeight'];
+                $weight->productRegularPrice = $weightAtrribute['productRegularPrice'];
+                $weight->discount = $weightAtrribute['productDiscount'];
+                $weight->productSalePrice = $weightAtrribute['productRegularPrice'] - ($weightAtrribute['productRegularPrice'] * $weightAtrribute['productDiscount'] / 100);
+                $weight->update();
+            }
+        }
 
         if($product){
             return response()->json($product, 200);

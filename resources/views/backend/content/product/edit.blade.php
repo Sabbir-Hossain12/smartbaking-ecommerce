@@ -37,12 +37,12 @@
 
 
             <div class="container p-4">
-                <form name="form" id="AddProduct" enctype="multipart/form-data">
+                <form name="form" id="UpdateProduct" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-lg-12">
                             <h5 class="text-uppercase bg-light p-2 mt-0 mb-3">General</h5>
-
+                            <input type="text" name="id" id="id" value="{{$product->id}}" hidden />
                             <div class="form-group mb-3">
                                 <label for="ProductName">Product Name <span class="text-danger">*</span></label>
                                 <input type="text" name="ProductName" id="ProductName" class="form-control" value="{{$product->ProductName}}"
@@ -193,12 +193,23 @@
                                             <input type="file" onchange="prevPost_Img()"
                                                    name="PostImage[]" id="PostImage" multiple>
                                         </button>
+                                        @php
+                                            $productSliderImages = json_decode($product->PostImage,true) ?? [];
+                                        @endphp
+                                        @forelse ($productSliderImages as $productSliderImage)
+                                            
+                                            <img src="{{asset('public/images/product/slider/'.$productSliderImage)}}" id="prevFile" style="height:100px;width:25%" />
+                                              
+                                        @empty
+                                        @endforelse
+                                        
                                     </div>
                                     <div class="file">
                                         <div id="prevFile"
                                              style="width: 100%;float:left;background: lightgray;">
 
                                         </div>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -261,27 +272,28 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if(count($weightInfo) > 0)
+                                            @foreach($weightInfo as $weight)
+
+                                                <tr>
+                                                    <td><span class="attrValueId">{{$weight->id}} </span></td>
+                                                    <td><span class="productWeight">{{$weight->weight_name}} </span></td>
+                                                    <td><input type="number" class="productRegularPrice form-control" style="width:80px;" value="{{$weight->productRegularPrice}}"></td>
+                                                    <td><input type="number" class="productDiscount form-control" style="width:80px;" value="{{$weight->discount}}"></td>
+
+
+                                                    <td><button class="btn btn-sm btn-danger delete-btn"><i class="fa fa-trash"></i></button></td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        @endif
                                         </tbody>
                                         <tfoot>
                                         <tr>
                                             <td colspan="5">
                                                 <select id="productID" style="width: 100%;">
                                                     
-                                                    @if(count($weightInfo) > 0) 
-                                                    @foreach($weightInfo as $weight)
-
-                                                            <tr>
-                                                                <td><span class="attrValueId">{{$weight->id}} </span></td>
-                                                                <td><span class="productWeight">{{$weight->weight_name}} </span></td>
-                                                                <td><input type="number" class="productRegularPrice form-control" style="width:80px;" value="{{$weight->productRegularPrice}}"></td>
-                                                                <td><input type="number" class="productDiscount form-control" style="width:80px;" value="{{$weight->discount}}"></td>
-
-
-                                                                <td><button class="btn btn-sm btn-danger delete-btn"><i class="fa fa-trash"></i></button></td>
-                                                                </tr>
-                                                    @endforeach
-                                                    @else
-                                                    @endif
+                                                 
                                                     
                                                 </select>
                                             </td>
@@ -333,10 +345,12 @@
     <script>
         $(document).ready(function() {
             var token = $("input[name='_token']").val();
+            
+            var productId = "{{ $product->id }}";
 
-            //add Product
+            // Update Product
 
-            $('#AddProduct').submit(function(e) {
+            $('#UpdateProduct').submit(function(e) {
                 e.preventDefault();
 
                 var product = [];
@@ -370,7 +384,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('admin/products')}}",
+                    url: 'product/' + productId,
                     processData: false,
                     contentType: false,
                     data: formData,
