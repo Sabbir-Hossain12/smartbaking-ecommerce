@@ -276,7 +276,7 @@
                                             @foreach($weightInfo as $weight)
 
                                                 <tr>
-                                                    <td><span class="attrValueId">{{$weight->id}} </span></td>
+                                                    <td><span class="attrValueId">{{$weight->attrvalue_id }} </span></td>
                                                     <td><span class="productWeight">{{$weight->weight_name}} </span></td>
                                                     <td><input type="number" class="productRegularPrice form-control" style="width:80px;" value="{{$weight->productRegularPrice}}"></td>
                                                     <td><input type="number" class="productDiscount form-control" style="width:80px;" value="{{$weight->discount}}"></td>
@@ -384,20 +384,14 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'product/' + productId,
+                    url: "{{url('admin/product/'.$product->id)}}",
                     processData: false,
                     contentType: false,
                     data: formData,
 
 
                     success: function(data) {
-                        $('#ProductName').val("");
-                        $('#ProductSalePrice').val("");
-                        $('#Discount').val("");
-                        $('#ProductImage').val("");
-                        $('#prevFile').html("src", '');
-                        $('#PostImage').val("");
-                        $('#prevFile').html("src", '');
+                    
 
                         swal({
                             title: "Success!",
@@ -562,7 +556,9 @@
             var sub_id = $('#category_id').val();
             $.ajax({
                 type: 'GET',
-                url: 'get/subcategory/' + sub_id,
+                // url: 'get/subcategory/' + sub_id,
+                
+                url: "{{url('admin/get/subcategory')}}/" + sub_id,
 
                 success: function(data) {
                     $('#sub_category_id').html('');

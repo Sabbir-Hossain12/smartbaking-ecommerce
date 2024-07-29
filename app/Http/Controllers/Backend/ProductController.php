@@ -317,18 +317,48 @@ class ProductController extends Controller
         // Decode the JSON string
         $products = json_decode($request->product, true) ?? [];
 
-        // Loop through each product and save to the database
-        if (count($products)>0) {
-            foreach ($products as $weightAtrribute) {
-                $weight = new Weight();
-                $weight->attrvalue_id = $weightAtrribute['attrValueId'];
-                $weight->product_id = $product->id;
-                $weight->weight_name = $weightAtrribute['productWeight'];
-                $weight->productRegularPrice = $weightAtrribute['productRegularPrice'];
-                $weight->discount = $weightAtrribute['productDiscount'];
-                $weight->productSalePrice = $weightAtrribute['productRegularPrice'] - ($weightAtrribute['productRegularPrice'] * $weightAtrribute['productDiscount'] / 100);
-                $weight->update();
+//         Loop through each product and save to the database
+//                if (count($products)>0) {
+//                foreach ($products as $weightAtrribute) {
+//                $weight = new Weight();
+//                $weight->attrvalue_id = $weightAtrribute['attrValueId'];
+//                $weight->product_id = $product->id;
+//                $weight->weight_name = $weightAtrribute['productWeight'];
+//                $weight->productRegularPrice = $weightAtrribute['productRegularPrice'];
+//                $weight->discount = $weightAtrribute['productDiscount'];
+//                $weight->productSalePrice = $weightAtrribute['productRegularPrice'] - ($weightAtrribute['productRegularPrice'] * $weightAtrribute['productDiscount'] / 100);
+//                $weight->save();
+//            }
+//        }
+
+        if (count($products) > 0) {
+            foreach ($products as $weightAttribute) {
+                // Define the attributes to find or create the Weight record
+                $attributes = [
+                    'attrvalue_id' => $weightAttribute['attrValueId'],
+                    'product_id' => $product->id,
+                ];
+
+                // Define the values to update or set
+                $values = [
+                    'weight_name' => $weightAttribute['productWeight'],
+                    'productRegularPrice' => $weightAttribute['productRegularPrice'],
+                    'discount' => $weightAttribute['productDiscount'],
+                    'productSalePrice' => $weightAttribute['productRegularPrice'] - ($weightAttribute['productRegularPrice'] * $weightAttribute['productDiscount'] / 100),
+                ];
+
+                // Use updateOrCreate to create or update the record
+                $weight =  Weight::updateOrCreate($attributes, $values);
+
+
+//                 Add the weight ID to the updated list
+                $updatedWeightIds[] = $weight->id;
             }
+
+            // Delete weights that are not in the updated list
+            Weight::where('product_id', $product->id)->whereNotIn('id', $updatedWeightIds)->delete();
+            
+            
         }
 
         if($product){
