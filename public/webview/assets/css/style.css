@@ -746,8 +746,8 @@ button#purcheseBtn {
 }
 
 #catimg {
-    width: 110px;
-    height: 110px;
+    width: 100%;
+    height: auto;
     margin-top: 6px;
     border-radius: 50%;
     border: 2px solid #F27336;
@@ -773,22 +773,24 @@ button#purcheseBtn {
         padding: 4px;
     }
     #catimg {
-        width: 60px;
-        height: 60px;
-        margin-top: 6px;
+        width: 100%;
+        height: auto;
+        /*margin-top: 6px;*/
         border-radius: 50%;
         border: 2px solid #F27336;
     }
     #catp {
-        font-size: 13px;
+        font-size: 8px;
         margin: 0;
         text-align: center;
-        padding-top: 4px;
+        /*padding-top: 4px;*/
+
+        height: 17px;
 
         white-space: nowrap;          /* Prevent text from wrapping to the next line */
         overflow: hidden;             /* Hide the overflowed text */
-        text-overflow: ellipsis;      /* Display ellipsis (...) for overflowed text */
-        width: 50px;
+        /*text-overflow: ellipsis;      !* Display ellipsis (...) for overflowed text *!*/
+        /*width: 50px;*/
 
     }
 }

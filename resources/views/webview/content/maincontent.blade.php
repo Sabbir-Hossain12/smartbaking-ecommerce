@@ -43,9 +43,110 @@
             padding-top: 0;
             max-height: 200px;
         }
+
+        @media screen and (max-width: 480px) {
+            .cat__bg .col-xs-3 {
+                width: 20% !important;
+            }
+        }
+
+        .col-xs-3 {
+            width: 20%;
+        }
+
+        .cat__img {
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+
+        /*   Featured Product */
+        .image_thum {
+            width: 183px;
+            height: 183px;
+        }
+
+        .image_thum img {
+            width: 100%;
+            height: 100%;
+            min-height: 140px;
+            object-fit: contain;
+        }
+
+        .product__item {
+            padding: 0;
+            padding-top: 0px;
+            background: #fee3e4;
+        }
+
+        @media screen and (max-width: 480px) {
+            #productName374 {
+                height: 18px;
+            }
+        }
+
+        #productName374 {
+            padding: 0;
+            padding-bottom: 0px;
+            display: block;
+            line-height: 28px;
+            color: #6E151C;
+            font-size: 12px;
+            height: 28px;
+            overflow: hidden;
+        }
+
+        #productPrice374 {
+            padding: 0;
+            padding-bottom: 10px;
+            display: block;
+            height: 28px;
+            line-height: 28px;
+            color: #6E151C;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .product_form {
+            padding: 0;
+            display: block;
+            height: 21px;
+            font-size: 12px;
+            font-weight: bold !important;
+        }
+
+        /*    Button*/
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        button, html input[type=button], input[type=reset], input[type=submit] {
+            -webkit-appearance: button;
+            cursor: pointer;
+        }
+
+        button, select {
+            text-transform: none;
+        }
+
+        button {
+            overflow: visible;
+        }
+
+        button, input, optgroup, select, textarea {
+            margin: 0;
+            font: inherit;
+            color: inherit;
+        }
+
+        .col-xs-12 {
+            width: 100%;
+        }
+
     </style>
     {{--Nav--}}
-    <div class="container-fluid" style="padding:0;background:#F27336">
+    <div class="container-fluid mb-0 pb-0" style="padding:0;background:#F27336">
         <div class="container">
             <div class="row" style="background:#F27336">
                 <div class="col-lg-3 d-none d-lg-block sidebar pe-0 ps-0">
@@ -58,10 +159,17 @@
                          style="background: #F27336;">
                         <div id="menu">
                             <ul>
-                                <li><a href="{{ url('/') }}">Home</a></li>
-                                <li><a href="{{ url('/combo-offer') }}">Combo Offer</a></li>
-                                <li><a href="{{ url('/') }}">News Feed</a></li>
-                                <li><a href="{{ url('/track-order') }}">Order Track</a></li>
+                                {{--                                <li><a href="{{ url('/') }}">Home</a></li>--}}
+                                {{--                                <li><a href="{{ url('/combo-offer') }}">Combo Offer</a></li>--}}
+                                {{--                                <li><a href="{{ url('/') }}">News Feed</a></li>--}}
+                                {{--                                <li><a href="{{ url('/track-order') }}">Order Track</a></li>--}}
+
+                                @foreach($navCategories as $navCategory)
+
+                                    <li>
+                                        <a href="{{  url('products/category/' . $navCategory->slug) }}">{{$navCategory->category_name}}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -71,14 +179,15 @@
     </div>
 
     {{--Category--}}
-    <div class="container mt-3 d-none d-lg-none d-xl-none d-md-none d-sm-block">
+    <div class="container d-none d-lg-none d-xl-none d-md-none d-sm-block">
         <div class="row">
 
 
             @forelse ($categories as $category)
-                <div class="col-xl-2 col-3 col-md-2 col-lg-2" style="">
+                {{--                <div class="col-xl-2 col-3 col-md-2 col-lg-2" style="">--}}
+                <div class="col-md-2 col-xs-3" style="margin-bottom:10px">
                     <a href="{{ url('products/category/' . $category->slug) }}">
-                        <div id="" class="d-flex flex-column  align-items-center ">
+                        <div id="" class="">
                             <div class="">
                                 <img src="{{ asset($category->category_icon) }}" id="catimg">
                             </div>
@@ -92,63 +201,63 @@
             @endforelse
 
         </div>
-
     </div>
 
+
     {{--  Slider Section  --}}
-    <div class="container">
+    <div class="container mt-1">
         <div class="row bg-white">
-{{--            <div class="col-lg-3 d-none d-lg-block sidebar pe-0 ps-0">--}}
-{{--                <div class="side-menu animate-dropdown outer-bottom-xs">--}}
-{{--                    <nav class="yamm megamenu-horizontal" role="navigation" style="padding-top: 6px;">--}}
-{{--                        <ul class="nav m-0">--}}
-{{--                            @forelse ($categories as $maincategory)--}}
-{{--                                @if (count($maincategory->subcategories) > 0)--}}
-{{--                                    <li class="dropdown menu-item">--}}
-{{--                                        <a href="{{ url('products/category/' . $maincategory->slug) }}"--}}
-{{--                                           class="dropdown-toggle" data-bs-hover="dropdown"> <img--}}
-{{--                                                    src="{{ asset($maincategory->category_icon) }}"--}}
-{{--                                                    alt="{{ $maincategory->category_name }}"--}}
-{{--                                                    style="width: 22px !important;margin-top: -5px;">--}}
-{{--                                            <span style="margin-left:6px">{{ $maincategory->category_name }}</span></a>--}}
-{{--                                        <ul class="dropdown-menu mega-menu">--}}
-{{--                                            <li class="yamm-content" style="padding-bottom: 5px;padding-top: 5px;">--}}
-{{--                                                <ul class="links list-unstyled">--}}
-{{--                                                    <div class="row">--}}
-{{--                                                        @foreach ($maincategory->subcategories as $subcategory)--}}
-{{--                                                            <div class="col-sm-12 col-md-4 pt-1 pb-1"--}}
-{{--                                                                 id="subcategoryhover" style="width: 100%;">--}}
-{{--                                                                <li>--}}
-{{--                                                                    <a href="{{ url('products/sub/category/' . $subcategory->slug) }}"--}}
-{{--                                                                       style="color:#666666">{{ $subcategory->sub_category_name }}</a>--}}
-{{--                                                                </li>--}}
-{{--                                                            </div>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </div>--}}
-{{--                                                </ul>--}}
-{{--                                                <!-- /.row -->--}}
-{{--                                            </li>--}}
-{{--                                            <!-- /.yamm-content -->--}}
-{{--                                        </ul>--}}
-{{--                                        <!-- /.dropdown-menu -->--}}
-{{--                                    </li>--}}
-{{--                                @else--}}
-{{--                                    <li class="dropdown menu-item">--}}
-{{--                                        <a href="{{ url('products/category/' . $maincategory->slug) }}"--}}
-{{--                                           class="dropdown-toggle text-truncate" data-bs-hover="dropdown"><img--}}
-{{--                                                    src="{{ asset($maincategory->category_icon) }}"--}}
-{{--                                                    alt="{{ $maincategory->category_name }}"--}}
-{{--                                                    style="width: 22px !important;margin-top: -5px;"><span--}}
-{{--                                                    style="margin-left:6px">{{ $maincategory->category_name }}</span></a>--}}
-{{--                                        <!-- /.dropdown-menu -->--}}
-{{--                                    </li>--}}
-{{--                                @endif--}}
-{{--                            @empty--}}
-{{--                            @endforelse--}}
-{{--                        </ul>--}}
-{{--                    </nav>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--            <div class="col-lg-3 d-none d-lg-block sidebar pe-0 ps-0">--}}
+            {{--                <div class="side-menu animate-dropdown outer-bottom-xs">--}}
+            {{--                    <nav class="yamm megamenu-horizontal" role="navigation" style="padding-top: 6px;">--}}
+            {{--                        <ul class="nav m-0">--}}
+            {{--                            @forelse ($categories as $maincategory)--}}
+            {{--                                @if (count($maincategory->subcategories) > 0)--}}
+            {{--                                    <li class="dropdown menu-item">--}}
+            {{--                                        <a href="{{ url('products/category/' . $maincategory->slug) }}"--}}
+            {{--                                           class="dropdown-toggle" data-bs-hover="dropdown"> <img--}}
+            {{--                                                    src="{{ asset($maincategory->category_icon) }}"--}}
+            {{--                                                    alt="{{ $maincategory->category_name }}"--}}
+            {{--                                                    style="width: 22px !important;margin-top: -5px;">--}}
+            {{--                                            <span style="margin-left:6px">{{ $maincategory->category_name }}</span></a>--}}
+            {{--                                        <ul class="dropdown-menu mega-menu">--}}
+            {{--                                            <li class="yamm-content" style="padding-bottom: 5px;padding-top: 5px;">--}}
+            {{--                                                <ul class="links list-unstyled">--}}
+            {{--                                                    <div class="row">--}}
+            {{--                                                        @foreach ($maincategory->subcategories as $subcategory)--}}
+            {{--                                                            <div class="col-sm-12 col-md-4 pt-1 pb-1"--}}
+            {{--                                                                 id="subcategoryhover" style="width: 100%;">--}}
+            {{--                                                                <li>--}}
+            {{--                                                                    <a href="{{ url('products/sub/category/' . $subcategory->slug) }}"--}}
+            {{--                                                                       style="color:#666666">{{ $subcategory->sub_category_name }}</a>--}}
+            {{--                                                                </li>--}}
+            {{--                                                            </div>--}}
+            {{--                                                        @endforeach--}}
+            {{--                                                    </div>--}}
+            {{--                                                </ul>--}}
+            {{--                                                <!-- /.row -->--}}
+            {{--                                            </li>--}}
+            {{--                                            <!-- /.yamm-content -->--}}
+            {{--                                        </ul>--}}
+            {{--                                        <!-- /.dropdown-menu -->--}}
+            {{--                                    </li>--}}
+            {{--                                @else--}}
+            {{--                                    <li class="dropdown menu-item">--}}
+            {{--                                        <a href="{{ url('products/category/' . $maincategory->slug) }}"--}}
+            {{--                                           class="dropdown-toggle text-truncate" data-bs-hover="dropdown"><img--}}
+            {{--                                                    src="{{ asset($maincategory->category_icon) }}"--}}
+            {{--                                                    alt="{{ $maincategory->category_name }}"--}}
+            {{--                                                    style="width: 22px !important;margin-top: -5px;"><span--}}
+            {{--                                                    style="margin-left:6px">{{ $maincategory->category_name }}</span></a>--}}
+            {{--                                        <!-- /.dropdown-menu -->--}}
+            {{--                                    </li>--}}
+            {{--                                @endif--}}
+            {{--                            @empty--}}
+            {{--                            @endforelse--}}
+            {{--                        </ul>--}}
+            {{--                    </nav>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
             <div class="col-lg-12 col-12 ps-0 pe-0" id="mainslider">
 
                 <div class="col-12">
@@ -198,8 +307,10 @@
         </div>
     </div>
 
+
+    {{--    Featured Products --}}
     @if(count($featuredproducts)>0)
-        <!-- Promotional Products -->
+        <!-- Featured Products -->
         <div class="container pt-0 pb-4">
             <div class="row bg-white pb-4">
                 <div class="col-12"
@@ -212,91 +323,63 @@
                        style="padding: 2px;height: 26px;color: white;font-weight: bold;margin-top:9px;background:#F27336;border:1px solid #F27336">VIEW
                         ALL</a>
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-2">
                     <div class="owl-carousel " id="featuredProductSlide">
                         @forelse ($featuredproducts as $promotional)
-                            <div class="item" id="featuredproduct">
-                                <div class="products best-product">
-                                    <div class="product">
-                                        <div class="product-micro">
-                                            <div class="row product-micro-row">
-                                                <div class="col-12">
-                                                    <div class="product-image" style="position: relative;">
-                                                        <div class="image text-center">
-                                                            <a href="{{ url('product/' . $promotional->ProductSlug) }}">
-                                                                <img src="{{ asset($promotional->ViewProductImage) }}"
-                                                                     alt="{{ $promotional->ProductName }}"
-                                                                     id="featureimagess" style="height: 175px">
-                                                            </a>
-                                                        </div>
-                                                        @if(count($promotional->weights)>0)
+                            <div class="col-sm-12 col-xs-12 padding-zero product-hover-effect pb-4"
+                                 style="background-color: #fff;padding: 0px;border: 1px solid #c6c6c6;">
+                                <a style="padding: 0px;overflow: hidden;"
+                                   class="img-hover col-sm-12 padding-zero image_thum"
+                                   href="{{ url('product/' . $promotional->ProductSlug) }}" id="374">
+                                    <img class="img-fluid" style="margin: 0 auto;padding:5px; height: 175px"
+                                         src="{{ asset($promotional->ViewProductImage) }}">
+                                </a>
+                                <div class="col-sm-12 col-xs-12 product__item" style="">
+                                    <span id="productName374"
+                                          class="col-sm-12 text-center">{{$promotional->ProductName}}</span>
+                                    @if(count($promotional->weights)>0)
 
-                                                            <span id="discountpart"> <span id="discountparttwo"> <p
-                                                                            id="pdis">-{{ round( $promotional->weights[0]->discount) }}%</p> </span></span>
-                                                        @else
-                                                        <span id="discountpart"> <span id="discountparttwo"> <p
-                                                                        id="pdis">-{{ round($promotional->Discount) }}%</p> </span></span>
-                                                            
-                                                            @endif
-                                                    </div>
-                                                    <!-- /.product-image -->
-                                                </div>
-                                                <!-- /.col -->
-                                                <div class="col-12">
-                                                    <div class="infofe p-md-3 p-2"
-                                                         style="padding-bottom: 4px !important;">
-                                                        <div class="product-info">
-                                                            <h2 class="name text-truncate" id="f_name"><a
-                                                                        href="{{ url('product/' . $promotional->ProductSlug) }}"
-                                                                        id="f_pro_name">{{ $promotional->ProductName }}
-                                                                    </a></h2>
-                                                        </div>
-                                                        <div class="price-box">
-{{--                                                            <!--<del class="old-product-price strong-400">৳{{ round($promotional->ProductRegularPrice) }}</del>-->--}}
-                                                            
-                                                              @if(count($promotional->weights)>0)
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{ round($promotional->weights[0]->productSalePrice) }}   </span>
+                                    @else
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{round($promotional->ProductSalePrice)}}   </span>
 
-                                                                <span
-                                                                        class="product-price strong-600">৳{{ round($promotional->weights[0]->productSalePrice) }}</span>
-                                                                  
-                                                                  
-                                                            @else
-                                                                <span
-                                                                        class="product-price strong-600">৳{{ round($promotional->ProductSalePrice) }}</span>
-                                                            @endif
-                                                                  
-                                                        </div>
-                                                    </div>
+                                    @endif
+
+                                    <span class="col-sm-12  col-xs-12 text-center product_form" style="">
+                                           
+                                                <div class="btn col-xs-12 col-sm-12 col-md-12"
+                                                     style="font-size: 21px;margin-bottom: 20px;background:#C50009;color:#fff">
+                                                  
                                                     <form name="form" action="{{url('add-to-cart')}}" method="POST"
                                                           enctype="multipart/form-data"
                                                           style="width: 100%;float: left;text-align: center;">
-                                                        @method('POST')
+                                                  @method('POST')
                                                         @csrf
-                                                        <input type="text" name="color" id="product_colorold" hidden>
-                                                        <input type="text" name="size" id="product_sizeold" hidden>
-                                                        <input type="text" name="product_id"
-                                                               value=" {{ $promotional->id }}"
-                                                               hidden>
-                                                        @if(count($promotional->weights)>0)
-                                                        <input type="text" name="productSalePrice" value="{{round($promotional->weights[0]->productSalePrice)}}" hidden="">
+                                                 <input type="text" name="color" id="product_colorold" hidden>
+                                                 <input type="text" name="size" id="product_sizeold" hidden>
+                                                 <input type="text" name="product_id" value=" {{ $promotional->id }}"
+                                                        hidden>
+                                                  @if(count($promotional->weights)>0)
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{round($promotional->weights[0]->productSalePrice)}}"
+                                                                   hidden="">
                                                         @else
-                                                            <input type="text" name="productSalePrice" value="{{ round($promotional->ProductSalePrice) }}" hidden="">
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{ round($promotional->ProductSalePrice) }}"
+                                                                   hidden="">
                                                         @endif
-                                                        <input type="text" name="qty" value="1" id="qtyor" hidden>
-                                                        <button class="btn btn-danger btn-sm mb-0 btn-block"
-                                                                style="width: 100%;border-radius: 0%;" id="purcheseBtn">
-                                                            অর্ডার করুন
-                                                        </button>
-                                                    </form>
-
+                                                  <input type="text" name="qty" value="1" id="qtyor" hidden>
+                                               <button class="add-to-cart p-0 m-0"
+                                                       style="background-color:transparent;border:0px;font-size:14px; font-weight: 500;"
+                                                       type="submit">
+                                                                                                        Buy Now
+                                               </button>
+                                                                                                  
+                                               </form>
                                                 </div>
-                                                <!-- /.col -->
-                                            </div>
-                                            <!-- /.product-micro-row -->
-                                        </div>
-                                        <!-- /.product-micro -->
-
-                                    </div>
+                                                </span>
                                 </div>
                             </div>
                         @empty
@@ -309,8 +392,7 @@
 
     @endif
 
-  
-
+{{--Promotional Products--}}
     @if(count($topproducts)>0)
         <!-- Promotional Products -->
         <div class="container pt-0 pb-4">
@@ -326,89 +408,61 @@
                 </div>
                 <div class="col-12">
                     <div class="owl-carousel " id="promotionalofferSlide">
-                        @forelse ($topproducts as $promotionals)
-                            <div class="item" id="featuredproduct">
-                                <div class="products best-product">
-                                    <div class="product">
-                                        <div class="product-micro">
-                                            <div class="row product-micro-row">
-                                                <div class="col-12">
-                                                    <div class="product-image" style="position: relative;">
-                                                        <div class="image text-center">
-                                                            <a href="{{ url('product/' . $promotionals->ProductSlug) }}">
-                                                                <img src="{{ asset($promotionals->ViewProductImage) }}"
-                                                                     alt="{{ $promotionals->ProductName }}"
-                                                                     id="featureimagess" style="height: 175px">
-                                                            </a>
-                                                        </div>
-                                                        
-                                                        @if(count($promotionals->weights)>0)
+                        @forelse ($topproducts as $promotional)
+                            <div class="col-sm-12 col-xs-12 padding-zero product-hover-effect pb-4"
+                                 style="background-color: #fff;padding: 0px;border: 1px solid #c6c6c6;">
+                                <a style="padding: 0px;overflow: hidden;"
+                                   class="img-hover col-sm-12 padding-zero image_thum"
+                                   href="{{ url('product/' . $promotional->ProductSlug) }}" id="374">
+                                    <img class="img-fluid" style="margin: 0 auto;padding:5px; height: 175px"
+                                         src="{{ asset($promotional->ViewProductImage) }}">
+                                </a>
+                                <div class="col-sm-12 col-xs-12 product__item" style="">
+                                    <span id="productName374"
+                                          class="col-sm-12 text-center">{{$promotional->ProductName}}</span>
+                                    @if(count($promotional->weights)>0)
 
-                                                            <span id="discountpart"> <span id="discountparttwo"> <p
-                                                                            id="pdis">-{{ round( $promotionals->weights[0]->discount) }}%</p> </span></span>
-                                                            
-                                                        @else
-                                                        
-                                                        <span id="discountpart"> <span id="discountparttwo"> <p
-                                                                        id="pdis">-{{ $promotionals->Discount }}%</p> </span></span>
-                                                            
-                                                        @endif
-                                                    </div>
-                                                    <!-- /.product-image -->
-                                                </div>
-                                                <!-- /.col -->
-                                                <div class="col-12">
-                                                    <div class="infofe p-md-3 p-2"
-                                                         style="padding-bottom: 4px !important;">
-                                                        <div class="product-info">
-                                                            <h2 class="name text-truncate" id="f_name"><a
-                                                                        href="{{ url('product/' . $promotionals->ProductSlug) }}"
-                                                                        id="f_pro_name">{{ $promotionals->ProductName }}
-                                                                    </a></h2>
-                                                        </div>
-                                                        <div class="price-box">
-                                                            @if(count($promotionals->weights)>0)
-                                                                <span
-                                                                        class="product-price strong-600">৳{{ round($promotionals->weights[0]->productSalePrice) }}</span>
-                                                            @else
-                                                                <span
-                                                                        class="product-price strong-600">৳{{ round($promotionals->ProductSalePrice) }}</span>
-                                                            @endif
-                                                            
-{{--                                                            <!--<del class="old-product-price strong-400">৳{{ round($promotionals->ProductRegularPrice) }}</del>-->--}}
-                                                           
-                                                        </div>
-                                                    </div>
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{ round($promotional->weights[0]->productSalePrice) }}   </span>
+                                    @else
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{$promotional->ProductSalePrice}}   </span>
+
+                                    @endif
+
+                                    <span class="col-sm-12  col-xs-12 text-center product_form" style="">
+                                           
+                                                <div class="btn col-xs-12 col-sm-12 col-md-12"
+                                                     style="font-size: 21px;margin-bottom: 20px;background:#C50009;color:#fff">
+                                                  
                                                     <form name="form" action="{{url('add-to-cart')}}" method="POST"
                                                           enctype="multipart/form-data"
                                                           style="width: 100%;float: left;text-align: center;">
-                                                        @method('POST')
+                                                  @method('POST')
                                                         @csrf
-                                                        <input type="text" name="color" id="product_colorold" hidden>
-                                                        <input type="text" name="size" id="product_sizeold" hidden>
-                                                        <input type="text" name="product_id"
-                                                               value=" {{ $promotionals->id }}"
-                                                               hidden>
-                                                        @if(count($promotionals->weights)>0)
-                                                            <input type="text" name="productSalePrice" value="{{round($promotionals->weights[0]->productSalePrice)}}" hidden="">
+                                                 <input type="text" name="color" id="product_colorold" hidden>
+                                                 <input type="text" name="size" id="product_sizeold" hidden>
+                                                 <input type="text" name="product_id" value=" {{ $promotional->id }}"
+                                                        hidden>
+                                                  @if(count($promotional->weights)>0)
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{round($promotional->weights[0]->productSalePrice)}}"
+                                                                   hidden="">
                                                         @else
-                                                            <input type="text" name="productSalePrice" value="{{ round($promotionals->ProductSalePrice) }}" hidden="">
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{ round($promotional->ProductSalePrice) }}"
+                                                                   hidden="">
                                                         @endif
-                                                        <input type="text" name="qty" value="1" id="qtyor" hidden>
-                                                        <button class="btn btn-danger btn-sm mb-0 btn-block"
-                                                                style="width: 100%;border-radius: 0%;" id="purcheseBtn">
-                                                            অর্ডার করুন
-                                                        </button>
-                                                    </form>
-
+                                                  <input type="text" name="qty" value="1" id="qtyor" hidden>
+                                               <button class="add-to-cart p-0 m-0"
+                                                       style="background-color:transparent;border:0px;font-size:14px; font-weight: 500;"
+                                                       type="submit">
+                                                                                                        Buy Now
+                                               </button>
+                                                                                                  
+                                               </form>
                                                 </div>
-                                                <!-- /.col -->
-                                            </div>
-                                            <!-- /.product-micro-row -->
-                                        </div>
-                                        <!-- /.product-micro -->
-
-                                    </div>
+                                                </span>
                                 </div>
                             </div>
                         @empty
@@ -421,6 +475,9 @@
 
     @endif
 
+{{--    @forelse ($categoryproduct->products->take(12) as $product)--}}
+{{--    Category Products --}}
+    
     @forelse ($categoryproducts as $key=>$categoryproduct)
         @if (count($categoryproduct->products) > 0)
             <!-- Category Products -->
@@ -439,96 +496,71 @@
                     </div>
 
 
-                    @forelse ($categoryproduct->products->take(12) as $product)
-                        <div class="col-6 col-md-4 col-lg-2 mb-4">
-                            <div class="product">
-                                <div class="product-micro">
-                                    <div class="row product-micro-row">
-                                        <div class="col-12">
-                                            <div class="product-image" style="position: relative;">
-                                                <div class="image text-center">
-                                                    <a href="{{ url('product/' . $product->ProductSlug) }}">
-                                                        <img src="{{ asset($product->ViewProductImage) }}"
-                                                             alt="{{ $product->ProductName }}" id="featureimage">
-                                                    </a>
+                    <div class="owl-carousel" id="bestsellingproductSlide">
+                        @forelse ($categoryproduct->products->take(12) as $product)
+                            <div class="col-sm-12 col-xs-12 padding-zero product-hover-effect pb-4"
+                                 style="background-color: #fff;padding: 0px;border: 1px solid #c6c6c6;">
+                                <a style="padding: 0px;overflow: hidden;"
+                                   class="img-hover col-sm-12 padding-zero image_thum"
+                                   href="{{ url('product/' . $product->ProductSlug) }}" id="374">
+                                    <img class="img-fluid" style="margin: 0 auto;padding:5px; height: 175px"
+                                         src="{{ asset($product->ViewProductImage) }}">
+                                </a>
+                                <div class="col-sm-12 col-xs-12 product__item" style="">
+                                    <span id="productName374"
+                                          class="col-sm-12 text-center">{{$product->ProductName}}</span>
+                                    @if(count($product->weights)>0)
+
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{ round($product->weights[0]->productSalePrice) }}   </span>
+                                    @else
+                                        <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
+                                                Tk. {{$product->ProductSalePrice}}   </span>
+
+                                    @endif
+
+                                    <span class="col-sm-12  col-xs-12 text-center product_form" style="">
+                                           
+                                                <div class="btn col-xs-12 col-sm-12 col-md-12"
+                                                     style="font-size: 21px;margin-bottom: 20px;background:#C50009;color:#fff">
+                                                  
+                                                    <form name="form" action="{{url('add-to-cart')}}" method="POST"
+                                                          enctype="multipart/form-data"
+                                                          style="width: 100%;float: left;text-align: center;">
+                                                  @method('POST')
+                                                        @csrf
+                                                 <input type="text" name="color" id="product_colorold" hidden>
+                                                 <input type="text" name="size" id="product_sizeold" hidden>
+                                                 <input type="text" name="product_id" value=" {{ $product->id }}"
+                                                        hidden>
+                                                  @if(count($product->weights)>0)
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{round($product->weights[0]->productSalePrice)}}"
+                                                                   hidden="">
+                                                        @else
+                                                            <input type="text" name="productSalePrice"
+                                                                   value="{{ round($product->ProductSalePrice) }}"
+                                                                   hidden="">
+                                                        @endif
+                                                  <input type="text" name="qty" value="1" id="qtyor" hidden>
+                                               <button class="add-to-cart p-0 m-0"
+                                                       style="background-color:transparent;border:0px;font-size:14px; font-weight: 500;"
+                                                       type="submit">
+                                                                                                        Buy Now
+                                               </button>
+                                                                                                  
+                                               </form>
                                                 </div>
-                                                @if(count($product->weights)>0)
-                                                <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{round($product->weights[0]->discount)  }}%</p> </span></span>
-                                                
-                                                @else
-                                                    <span id="discountpart"> <span id="discountparttwo"> <p id="pdis">-{{round($product->Discount)  }}%</p> </span></span>
-
-                                                @endif
-                                                <!-- /.image -->
-                                            </div>
-                                            <!-- /.product-image -->
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-12">
-                                            <div class="infofe p-md-3 p-2"
-                                                 style="border: 1px solid #e3e1e1;border-top:none;">
-                                                <div class="product-info">
-                                                    <h2 class="name text-truncate" id="f_name"><a
-                                                                href="{{ url('product/' . $product->ProductSlug) }}"
-                                                                id="f_pro_name">{{ $product->ProductName }}</a>
-                                                    </h2>
-                                                </div>
-                                                <div class="price-box">
-                                                    
-                                                    @if(count($product->weights)>0) 
-                                                    <del class="old-product-price strong-400">৳
-                                                        {{ round($product->weights[0]->productRegularPrice) }}</del>
-                                                    <span class="product-price strong-600">৳
-                                                        {{ round($product->weights[0]->productSalePrice) }}</span>
-                                                        
-                                                    @else
-                                                        <del class="old-product-price strong-400">৳
-                                                            {{ round($product->ProductRegularPrice) }}</del>
-                                                        <span class="product-price strong-600">৳
-                                                        {{ round($product->ProductSalePrice) }}</span>
-
-                                                    @endif
-                                                </div>
-
-                                            </div>
-
-                                            <form name="form" action="{{url('add-to-cart')}}" method="POST"
-                                                  enctype="multipart/form-data"
-                                                  style="width: 100%;float: left;text-align: center;">
-                                                @method('POST')
-                                                @csrf
-                                                <input type="text" name="color" id="product_colorold" hidden>
-                                                <input type="text" name="size" id="product_sizeold" hidden>
-                                                <input type="text" name="product_id" value=" {{ $product->id }}"
-                                                       hidden>
-
-                                                @if(count($product->weights)>0)
-                                                    <input type="text" name="productSalePrice" value="{{round($product->weights[0]->productSalePrice)}}" hidden="">
-                                                @else
-                                                    <input type="text" name="productSalePrice" value="{{ round($product->ProductSalePrice) }}" hidden="">
-                                                @endif
-                                                <input type="text" name="qty" value="1" id="qtyor" hidden>
-                                                <button class="btn btn-danger btn-sm mb-0 btn-block"
-                                                        style="width: 100%;border-radius: 0%;" id="purcheseBtn">অর্ডার
-                                                    করুন
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <!-- /.col -->
-                                    </div>
-                                    <!-- /.product-micro-row -->
+                                                </span>
                                 </div>
-
-                                <!-- /.product-micro -->
-
                             </div>
-                        </div>
-                    @empty
-                    @endforelse
+                        @empty
+                        @endforelse
+                    </div>
 
                 </div>
             </div>
-            </div>
+           
         @else
         @endif
 

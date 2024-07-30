@@ -199,10 +199,10 @@
                 dots: false,
                 responsive: {
                     0: {
-                        items: 2,
+                        items: 3,
                     },
                     600: {
-                        items: 2,
+                        items: 3,
                     },
                     1000: {
                         items: 6,
@@ -222,7 +222,7 @@
                 dots: false,
                 responsive: {
                     0: {
-                        items: 2,
+                        items: 3,
                     },
                     600: {
                         items: 3,
@@ -235,7 +235,7 @@
 
             $('#bestsellingproductSlide').owlCarousel({
                 loop: true,
-                margin: 0,
+                margin: 10,
                 autoplay: true,
                 lazyLoad: true,
                 autoplayTimeout: 2500,
@@ -245,13 +245,13 @@
                 nav: true,
                 responsive: {
                     0: {
-                        items: 2,
+                        items: 3,
                     },
                     600: {
-                        items: 2,
+                        items: 3,
                     },
                     1000: {
-                        items: 4,
+                        items:6,
                     }
                 }
             });
