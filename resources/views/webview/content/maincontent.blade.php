@@ -359,6 +359,12 @@
                                                         @csrf
                                                  <input type="text" name="color" id="product_colorold" hidden>
                                                  <input type="text" name="size" id="product_sizeold" hidden>
+                                                        
+                                                        @if(count($promotional->weights)>0)
+                                                            <input type="text" name="weight" value="{{$promotional->weights[0]->weight_name}}" hidden>
+                                                        @else
+                                                        @endif
+                                                
                                                  <input type="text" name="product_id" value=" {{ $promotional->id }}"
                                                         hidden>
                                                   @if(count($promotional->weights)>0)
@@ -406,7 +412,7 @@
                     <a href="{{ url('promotional/products') }}" class="btn btn-danger btn-sm mb-0"
                        style="padding: 2px;height: 26px;color: white;font-weight: bold;margin-top:9px;">VIEW ALL</a>
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-2">
                     <div class="owl-carousel " id="promotionalofferSlide">
                         @forelse ($topproducts as $promotional)
                             <div class="col-sm-12 col-xs-12 padding-zero product-hover-effect pb-4"
@@ -426,7 +432,7 @@
                                                 Tk. {{ round($promotional->weights[0]->productSalePrice) }}   </span>
                                     @else
                                         <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
-                                                Tk. {{$promotional->ProductSalePrice}}   </span>
+                                                Tk. {{round($promotional->ProductSalePrice)}}   </span>
 
                                     @endif
 
@@ -442,6 +448,10 @@
                                                         @csrf
                                                  <input type="text" name="color" id="product_colorold" hidden>
                                                  <input type="text" name="size" id="product_sizeold" hidden>
+                                                           @if(count($promotional->weights)>0)
+                                                            <input type="text" name="weight" value="{{$promotional->weights[0]->weight_name}}" hidden>
+                                                        @else
+                                                        @endif
                                                  <input type="text" name="product_id" value=" {{ $promotional->id }}"
                                                         hidden>
                                                   @if(count($promotional->weights)>0)
@@ -496,7 +506,7 @@
                     </div>
 
 
-                    <div class="owl-carousel" id="bestsellingproductSlide">
+                    <div class="owl-carousel bestsellingproductSlide mt-2" >
                         @forelse ($categoryproduct->products->take(12) as $product)
                             <div class="col-sm-12 col-xs-12 padding-zero product-hover-effect pb-4"
                                  style="background-color: #fff;padding: 0px;border: 1px solid #c6c6c6;">
@@ -515,7 +525,7 @@
                                                 Tk. {{ round($product->weights[0]->productSalePrice) }}   </span>
                                     @else
                                         <span id="productPrice374" class="col-sm-12  col-xs-12 text-center" style="">
-                                                Tk. {{$product->ProductSalePrice}}   </span>
+                                                Tk. {{round($product->ProductSalePrice)}}   </span>
 
                                     @endif
 
@@ -531,6 +541,10 @@
                                                         @csrf
                                                  <input type="text" name="color" id="product_colorold" hidden>
                                                  <input type="text" name="size" id="product_sizeold" hidden>
+                                                        @if(count($product->weights)>0)
+                                                            <input type="text" name="weight" value="{{$product->weights[0]->weight_name}}" hidden>
+                                                        @else
+                                                        @endif
                                                  <input type="text" name="product_id" value=" {{ $product->id }}"
                                                         hidden>
                                                   @if(count($product->weights)>0)

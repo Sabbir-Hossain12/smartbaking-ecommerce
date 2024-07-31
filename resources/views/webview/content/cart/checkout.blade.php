@@ -125,11 +125,12 @@
 
                                                 <td class="product-name">
                                                     <span class="pr-4 d-block w-100"
-                                                        id="proName">{{ $cartProduct->name }}</span>
+                                                        id="proName"> {{ $cartProduct->name }} </span>
                                                     <div class="ext w-100">
                                                         <div class="price">
                                                             <span class="pr-3 d-block" id="proPrice">৳
                                                                 {{ $cartProduct->price }}</span>
+                                                       <div class="mb-1"> <span class="text-primary">Weight: </span>   <span class="text-black">{{$cartProduct->options['weight']}}</span></div>
                                                         </div>
                                                         <div class="qtyinfo">
                                                             <div class="input-group input-group--style-2 pr-4"

@@ -18,10 +18,12 @@ use Carbon\Carbon;
 class OrderController extends Controller
 {
 
-    public function pressorder(Request $request){ 
+    public function pressorder(Request $request)
+    {
         $products = Cart::content();
+
         
-//        dd($products);
+
 
         if(!Session::has('cart')){
             return redirect('/empty-cart');
@@ -69,8 +71,14 @@ class OrderController extends Controller
                         $orderProducts->size = $product->options['size'];
                     } 
                     
+                    if ($product->options['weight'])
+                    {
+                        $orderProducts->weight = $product->options['weight'];
+                    }
+                    
                     $orderProducts->productName = $product->name;
                     $orderProducts->quantity = $product->qty;
+                    
                     $orderProducts->productPrice = $product->price;
                     $orderProducts->save();
                 }

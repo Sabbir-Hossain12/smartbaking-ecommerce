@@ -406,7 +406,7 @@ class OrderController extends Controller
 
         $orders =  Order::with(
             [
-                'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','product_id');},
+                'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','weight','product_id');},
                 'admins'=> function ($query) { $query->select('id','name');},
                 'couriers'=> function ($query) { $query->select('id','courierName');},
                 'products'=> function ($query) { $query->select('id', 'productName','productPrice');},
@@ -464,13 +464,19 @@ class OrderController extends Controller
         ->editColumn('products', function ($orders) {
             $orderProducts = '';
             foreach ($orders->orderproducts as $product) {
-                if(isset($product->color) && isset($product->size)){
-                    $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color .' , Size: '.$product->size.'</span><br>';
+                if(isset($product->color) && isset($product->size) && isset($product->weight)){
+                    $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color .' , Size: '.$product->size.' , Weight: '.$product->weight.'</span><br>';
                 }elseif(isset($product->size)){
                     $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Size: '.$product->size.'</span><br>';
                 }else if($product->color){
                     $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color.'<span><br>';
-                }else{
+                }
+                else if ($product->weight){
+                    $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Weight: '.$product->weight.'<span><br>';
+                    
+                }
+                
+                else{
                     $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName .'<br>';
                 }
             }
@@ -526,7 +532,7 @@ class OrderController extends Controller
             if($admin->hasrole('user')){
                 $orders =  Order::with(
                     [
-                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','product_id');},
+                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','weight','product_id');},
                         'admins'=> function ($query) { $query->select('id','name');},
                         'couriers'=> function ($query) { $query->select('id','courierName');},
                         'products'=> function ($query) { $query->select('id', 'ProductName','ProductSalePrice');},
@@ -540,7 +546,7 @@ class OrderController extends Controller
             }else{
                 $orders =  Order::with(
                     [
-                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','product_id');},
+                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','weight','product_id');},
                         'admins'=> function ($query) { $query->select('id','name');},
                         'couriers'=> function ($query) { $query->select('id','courierName');},
                         'products'=> function ($query) { $query->select('id', 'ProductName','ProductSalePrice');},
@@ -557,7 +563,7 @@ class OrderController extends Controller
             if($admin->hasrole('user')){
                 $orders =  Order::with(
                     [
-                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','product_id');},
+                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','weight','product_id');},
                         'admins'=> function ($query) { $query->select('id','name');},
                         'couriers'=> function ($query) { $query->select('id','courierName');},
                         'products'=> function ($query) { $query->select('id', 'ProductName','ProductSalePrice');},
@@ -572,7 +578,7 @@ class OrderController extends Controller
             }else{
                 $orders =  Order::with(
                     [
-                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','product_id');},
+                        'orderproducts'=>function ($query) { $query->select('id','order_id','productName','quantity','color','size','weight','product_id');},
                         'admins'=> function ($query) { $query->select('id','name');},
                         'couriers'=> function ($query) { $query->select('id','courierName');},
                         'products'=> function ($query) { $query->select('id', 'ProductName','ProductSalePrice');},
@@ -649,13 +655,20 @@ class OrderController extends Controller
             ->editColumn('products', function ($orders) {
                 $orderProducts = '';
                 foreach ($orders->orderproducts as $product) {
-                    if(isset($product->color) && isset($product->size)){
+                    if(isset($product->color) && isset($product->size) && isset($product->weight)){
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color .' , Size: '.$product->size.'</span><br>';
                     }elseif(isset($product->size)){
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Size: '.$product->size.'</span><br>';
                     }else if($product->color){
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color.'<span><br>';
-                    }else{
+                    }
+                    else if ($product->weight){
+                        $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Weight: '.$product->weight.'<span><br>';
+
+                    }
+                    
+                    
+                    else{
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName.'<br>' ;
                     }
                 }
@@ -1504,6 +1517,7 @@ class OrderController extends Controller
                 $orderProducts->productName = $product['productName'];
                 $orderProducts->color = $product['productColor'];
                 $orderProducts->size = $product['productSize'];
+                $orderProducts->weight = $product['productSize'];
                 $orderProducts->quantity = $product['productQuantity'];
                 $orderProducts->productPrice = $product['productPrice'];
                 $orderProducts->save();

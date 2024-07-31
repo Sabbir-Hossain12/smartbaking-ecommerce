@@ -83,7 +83,7 @@ class WebviewController extends Controller
             $productdetails=Product::where('ProductSlug',$slug)->with('weights')->first();
             $topproducts =Product::with('weights')->where('status','Active')->where('top_rated','1')->select('id','ProductName','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->get();
             $bestproducts =Product::with('weights')->where('status','Active')->where('best_selling','0')->select('id','ProductName','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->latest()->take(20)->get()->chunk(2);
-            $relatedproducts=Product::with('weights')->where('category_id',$productdetails->category_id)->where('status','Active')->inRandomOrder()->limit(15)->get();
+            $relatedproducts=Product::where('category_id',$productdetails->category_id)->where('status','Active')->with('weights')->inRandomOrder()->limit(15)->get();
             $hotproducts=Product::with('weights')->where('status','Active')->select('id','ProductName','ProductSlug','ProductSku','ProductRegularPrice','ProductSalePrice','Discount','ProductImage')->inRandomOrder()->limit(20)->get();
             $shareButtons = \Share::page(\Request::root().'/product/'.$productdetails->ProductSlug ,  $productdetails->ProductName)
                 ->facebook()
@@ -91,6 +91,8 @@ class WebviewController extends Controller
                 ->linkedin()
                 ->whatsapp()
                 ->reddit()->getRawLinks();
+            
+//            dd($relatedproducts);
 
             return view('webview.content.product.details',['bestproducts'=>$bestproducts,'topproducts'=>$topproducts,'shareButtons'=>$shareButtons,'shipping'=>$shipping,'hotproducts'=>$hotproducts,'relatedproducts'=>$relatedproducts,'productdetails'=>$productdetails]);
         }
@@ -129,7 +131,7 @@ class WebviewController extends Controller
             $searchproducts = Product::query() 
                             ->where('ProductName', 'LIKE', "%{$search}%")
                             ->orWhere('ProductSlug', 'LIKE', "%{$search}%")
-                            ->get();
+                            ->with('weights')->get();
             return view('webview.content.product.mainsearch',['searchproducts' => $searchproducts]);
         }
         public function combo(){ 

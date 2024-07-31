@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
-use Cart;
 use App\Models\Order;
 use Session;
+
 
 class CartController extends Controller
 {
     public function addtocart(Request $request)
     {
+//        dd($request->all());
         $pid = $request->product_id;
         $cartProduct = Product::where('id', $pid)->with('weights')->first();
 
-
+   
         Cart::add([
             'id' => $request->product_id,
             'name' => $cartProduct->ProductName,
@@ -27,9 +30,12 @@ class CartController extends Controller
             'options' => [
                 'size' => $request->size,
                 'color' => $request->color,
+                'weight'=>$request->weight,
             ],
 
         ]);
+
+       
 
 
         return redirect('checkout');
