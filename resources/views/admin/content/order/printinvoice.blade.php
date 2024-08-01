@@ -154,12 +154,15 @@
             $products = DB::table('orderproducts')->where('order_id', '=', $orderID)->get();
             foreach ($products as $product) { ?>
             <tr>
-                <td>{{ $product->productName }} @if ($product->color && $product->size)
-                        (Colour: {{ $product->color }} , Size: {{ $product->size }})
+                <td>{{ $product->productName }} @if ($product->color && $product->size && $product->weight)
+                        (Colour: {{ $product->color }} , Size: {{ $product->size }} , Weight: {{ $product->weight }})
                     @elseif($product->size)
                         (Size: {{ $product->size }})
                     @elseif($product->color)
-                        (Size: {{ $product->color }})
+                        (Color: {{ $product->color }})  
+                    @elseif($product->weight)
+                        (Weight: {{ $product->weight }})
+                                                    
                     @else
                     @endif
                 </td>

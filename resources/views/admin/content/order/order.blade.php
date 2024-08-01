@@ -893,6 +893,7 @@ $users = Admin::whereHas('roles', function ($q) {
                             e.params.data.id + '"></td>' +
                             '<td><input type="text" name="color" id="ProductColor" value="" style="    max-width: 60px;"> </td>' +
                             '<td><input type="text" name="size" id="ProductSize" value="" style="    max-width: 40px;"></td>' +
+                            '<td><input type="text" name="weight" id="ProductWeight" value="" style="    max-width: 60px;"></td>' +
                             '<td><span class="productCode">' + e.params.data
                             .productCode + '</span></td>' +
                             '<td><span class="productName">' + e.params.data
@@ -1257,6 +1258,7 @@ $users = Admin::whereHas('roles', function ($q) {
                 var obj = {};
                 obj.productColor = currentRow.find("#ProductColor").val();
                 obj.productSize = currentRow.find("#ProductSize").val();
+                obj.productWeight= currentRow.find("#ProductWeight").val();
                 obj.productID = currentRow.find(".productID").val();
                 obj.productCode = currentRow.find(".productCode").text();
                 obj.productName = currentRow.find(".productName").text();

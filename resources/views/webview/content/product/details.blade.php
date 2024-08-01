@@ -220,7 +220,7 @@
                                                     <input id="psprice" type="text" value="{{ $productdetails->weights[0]->productSalePrice }}" hidden/>
                                                 @else
                                                     <del style="font-size: 20px;color: red;">৳{{round($productdetails->ProductRegularPrice)}}</del> &nbsp;&nbsp;
-                                                    ৳ {{ $productdetails->ProductSalePrice }}
+                                                    ৳ {{ round($productdetails->ProductSalePrice) }}
 
                                                 @endif
                                             </div>
@@ -291,8 +291,8 @@
 
                                             <div class="col-12 col-md-12 colorpart mt-2">
                                                 <div class="d-flex">
-                                                    <h4 id="resellerpri" class="m-0"><b style="font-size:20px">ওজন: &nbsp;&nbsp;&nbsp;</b></h4>
-                                                    <div class="sizeinfo">
+                                                    <h4 id="resellerprice" class="m-0"><b style="font-size:20px">ওজন: &nbsp;&nbsp;&nbsp;</b></h4>
+                                                    <div class="weightinfo">
                                                         @forelse ($productdetails->weights as $weight)
                                                             <input type="radio" class="m-0" hidden id="sizeWeight{{ $weight->weight_name }}" name="weight" onclick="getWeight('{{ $weight->weight_name }}')"/>
                                                             <label class="weighttext ms-0" id="weightText{{ $weight->weight_name }}" for="sizeWeight{{ $weight->weight_name }}" style="border: 1px solid #613EEA;font-size:20px;font-weight:bold;padding: 0px 12px;border-radius: 4px;">{{ $weight->weight_name }}</label>
@@ -340,7 +340,11 @@
                                         @csrf
                                         <input type="text" name="color" id="product_colorOr" hidden>
                                         <input type="text" name="size" id="product_sizeOr" hidden>
+                                        @if(count($productdetails->weights)>0) 
                                         <input type="text" name="weight" id="product_weightOr" value="{{$productdetails->weights[0]->weight_name}}" hidden>
+                                        @else
+
+                                        @endif
                                         <input type="text" name="product_id" value=" {{ $productdetails->id }}"
                                             hidden>
                                         
@@ -1009,10 +1013,15 @@
         $('#sizetext'+size).css('color','#fff');
         $('#sizetext'+size).css('background','#613EEA');
     }
+
+    function encodeID(id) {
+        return id.replace(/[^a-zA-Z0-9]/g, '_');
+    }
     
     function getWeight(weight) {
         // console.log(weight);
 
+        var encodeWeight=encodeID(weight);
         $.ajax({
             type: 'GET',
             url: '{{ url('/get/price-by-weight') }}',
@@ -1023,7 +1032,7 @@
             },
 
             success: function(res) {
-                
+                // console.log(weight);
                 $('#pSalePrice').text('৳ ' + res.productSalePrice);
                 $('#pRegularPrice').text('৳ ' + res.productRegularPrice);
 
@@ -1036,10 +1045,14 @@
                 $('.weighttext').css('color','#000');
                 $('.weighttext').css('background','#fff');
 
-                $('#weightText'+ weight).css('color','#fff');
+                $('#weightText' + weight).css('color','#fff');
                 $('#weightText'+ weight).css('background','#613EEA');
+
+                // console.log('Styles applied to:', '#weightText' + weight);
+                // console.log('Color:', $('#weightText' + weight).css('#fff'));
+                // console.log('Background:', $('#weightText' + weight).css('#613EEA'));
                 
-              
+                
             },
             error: function(error) {
                 console.log('error');

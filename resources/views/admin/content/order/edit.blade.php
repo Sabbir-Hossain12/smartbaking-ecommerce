@@ -140,6 +140,8 @@
                             <tr>
                                 <th>Color</th>
                                 <th>Size</th>
+                                <th>Weight</th>
+                                
                                 <th>Code</th>
                                 <th>Product Name</th>
                                 <th>Quantity</th>
@@ -157,6 +159,9 @@
                                     </td>
                                     <td><span class="Size"><input type="text" name="size" id="ProductSize"
                                                 value="{{ $product->size }}" style="    max-width: 40px;"> </span>
+                                    </td> 
+                                    <td><span class="Weight"><input type="text" name="weight" id="ProductWeight"
+                                                value="{{ $product->weight }}" style="    max-width: 40px;"> </span>
                                     </td>
                                     <td><span class="productCode">{{ $product->productCode }}</span></td>
                                     <td><span class="productName">{{ $product->productName }}</span></td>

@@ -130,7 +130,9 @@
                                                         <div class="price">
                                                             <span class="pr-3 d-block" id="proPrice">৳
                                                                 {{ $cartProduct->price }}</span>
+                                                            @if($cartProduct->options['weight'] != null) 
                                                        <div class="mb-1"> <span class="text-primary">Weight: </span>   <span class="text-black">{{$cartProduct->options['weight']}}</span></div>
+                                                            @endif
                                                         </div>
                                                         <div class="qtyinfo">
                                                             <div class="input-group input-group--style-2 pr-4"

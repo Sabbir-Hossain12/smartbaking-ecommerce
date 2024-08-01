@@ -656,14 +656,14 @@ class OrderController extends Controller
                 $orderProducts = '';
                 foreach ($orders->orderproducts as $product) {
                     if(isset($product->color) && isset($product->size) && isset($product->weight)){
-                        $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color .' , Size: '.$product->size.'</span><br>';
+                        $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color .' , Size: '.$product->size.', Weight: '.$product->weight.'</span><br>';
                     }elseif(isset($product->size)){
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Size: '.$product->size.'</span><br>';
                     }else if($product->color){
                         $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Colour: '.$product->color.'<span><br>';
                     }
                     else if ($product->weight){
-                        $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Weight: '.$product->weight.'<span><br>';
+                        $orderProducts = $orderProducts . $product->quantity . ' x ' . $product->productName . '<br><span style="color:blue;"> Weight: '.$product->weight.'</span><br>';
 
                     }
                     
@@ -1517,7 +1517,7 @@ class OrderController extends Controller
                 $orderProducts->productName = $product['productName'];
                 $orderProducts->color = $product['productColor'];
                 $orderProducts->size = $product['productSize'];
-                $orderProducts->weight = $product['productSize'];
+                $orderProducts->weight = $product['productWeight'];
                 $orderProducts->quantity = $product['productQuantity'];
                 $orderProducts->productPrice = $product['productPrice'];
                 $orderProducts->save();

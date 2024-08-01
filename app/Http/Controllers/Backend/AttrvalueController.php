@@ -32,9 +32,9 @@ class AttrvalueController extends Controller
     {
         $attr =Attribute::where('id',$request->attribute_id)->first();
         $attrvalue=new Attrvalue();
-        $attrvalue-> value=$request-> value;
-        $attrvalue-> attribute_id=$request-> attribute_id;
-        $attrvalue->attribute_name =$attr->attribute_name;
+        $attrvalue->value= trim($request-> value);
+        $attrvalue->attribute_id= $request-> attribute_id;
+        $attrvalue->attribute_name = $attr->attribute_name;
         $attrvalue->save();
         return response()->json($attrvalue, 200);
     }
